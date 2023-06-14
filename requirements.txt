@@ -1,0 +1,7 @@
+functions-framework==3.*
+cloudevents==1.9.0
+gradio_client==0.2.7
+protobuf==4.23.3
+google-events==0.7.0
+google-cloud-firestore==2.11.1
+google-api-core==2.11.0

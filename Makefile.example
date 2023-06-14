@@ -1,0 +1,13 @@
+run:
+	gcloud functions deploy update_food_recommendation_fn \
+	--gen2 \
+	--runtime=python311 \
+	--region=asia-southeast2 \
+	--trigger-location=asia-southeast2 \
+	--source=. \
+	--entry-point=update_food_recommendation \
+	--timeout=540 \
+	--trigger-event-filters=type=google.cloud.firestore.document.v1.written \
+	--trigger-event-filters=database='(default)' \
+	--trigger-event-filters-path-pattern=document=<YOUR_PATTERN> \
+	--set-env-vars FOOD_RECOMMENDATION_API=<YOUR API>

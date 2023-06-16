@@ -94,7 +94,6 @@ def update_food_recommendation(event: CloudEvent) -> None:
         ml_id, age, weight, height, calories_target, sex, 4
     )
 
-
     for t in top15_2:
         id = t["name"]
         ref = client.collection("food_collection").document(id)
@@ -115,8 +114,6 @@ def update_food_recommendation(event: CloudEvent) -> None:
         data = ref.get().to_dict()
 
         t["img"] = data["img"]
-
-
 
     ref = client.collection("food_recommendation").document(user_id)
 

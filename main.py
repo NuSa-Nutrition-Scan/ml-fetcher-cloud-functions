@@ -78,6 +78,11 @@ def update_food_recommendation(event: CloudEvent) -> None:
     calories_target = payload.value.fields["calories_target"].integer_value
     height = payload.value.fields["height"].integer_value
     sex = payload.value.fields["sex"].string_value
+    has_been_updated = payload.value.fields["has_been_updated"].boolean_value
+
+    if has_been_updated is False:
+        print("User still has not been updated the profile")
+        return
 
     top15_2, recom_2 = get_predictions(
         ml_id, age, weight, height, calories_target, sex, 2
@@ -89,7 +94,32 @@ def update_food_recommendation(event: CloudEvent) -> None:
         ml_id, age, weight, height, calories_target, sex, 4
     )
 
+
+    for t in top15_2:
+        id = t["name"]
+        ref = client.collection("food_collection").document(id)
+        data = ref.get().to_dict()
+
+        t["img"] = data["img"]
+
+    for t in top15_3:
+        id = t["name"]
+        ref = client.collection("food_collection").document(id)
+        data = ref.get().to_dict()
+
+        t["img"] = data["img"]
+
+    for t in top15_4:
+        id = t["name"]
+        ref = client.collection("food_collection").document(id)
+        data = ref.get().to_dict()
+
+        t["img"] = data["img"]
+
+
+
     ref = client.collection("food_recommendation").document(user_id)
+
     ref.set(
         {
             "2x": {
